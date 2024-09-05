@@ -1,0 +1,5 @@
+#main-box {
+    width: max-content;
+    min-width: 350px;
+    box-shadow: -10px 20px 50px 0px black;
+}

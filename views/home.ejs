@@ -1,0 +1,132 @@
+
+        <% if( tasks.length === 0 ) { %>
+    
+        <div class="bg-light text-dark mt-5 pt-3 pb-3 px-4 rounded d-flex flex-column justify-content-between" id="main-box" style="height: 350px; position: relative;">
+            <h3 class="text-center">Tasks to do!</h3>
+            <hr>
+            <div class="overflow-y-scroll">
+
+                <p class="text-secondary">No tasks...</p>
+
+            </div>
+            <hr> 
+            <div class="d-flex flex-row w-100 justify-content-end">
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#taskModal">Create new task.</button>
+        </div>
+    
+        <% } else { %>
+    
+            <div class="bg-light text-dark pt-3 pb-3 px-3 rounded d-flex flex-column justify-content-between" id="main-box" style="height: 430px; position: relative;">
+                <h3 class="text-center">Tasks to do!</h3>
+                <hr>
+                <div class="overflow-y-scroll">
+
+            <% for(task of tasks) { %>
+            <div  class="d-flex flex-column w-100 p-2 mb-2" id="task<%= task.taskid %>">
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#editTaskModal<%= task.taskid %>">
+                    <div class="d-flex flex-column column-gap-0">
+                        <div class="d-flex flex-row justify-content-between">
+                            <p class="text-bold"><%= task.username %></p>
+                            <p class="text-secondary" style="font-size: x-small;"><%= task.timeofcreation %></p>
+                        </div>
+                        <hr>
+                        <h5 class="text-start mt-0 pt-0" style="width: 235px; overflow: hidden; text-overflow: ellipsis;"><%= task.task %></h5>
+                    </div>
+                </button>
+            </div>
+
+            <!-- A modal for each task button created that can be edited. -->
+            <div class="modal fade" id="editTaskModal<%= task.taskid %>" tabindex="-1" aria-labelledby="editTaskModal<%= task.taskid %>" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="/editTask" method="post">
+                            <div class="modal-header d-flex flex-column justify-content-center">
+                                <h1 class="modal-title text-dark" id="editTaskModal<%= task.taskid %>">Your task</h1>
+                                <div class="d-flex flex-column column-gap-0 text-center ">
+                                    <p class="text-secondary" style="font-size: xx-small;">Created on</p>
+                                    <p class="text-secondary" style="font-size: small;"><%= task.timeofcreation %></p>
+                                </div>
+                            </div>
+                            <div class="modal-body w-100">
+                                <p class="text-secondary">Task:</p>
+                                <label for="taskId">
+                                    <input type="number" class="d-none" name="taskId" id="taskId" value="<%= task.taskid %>">
+                                </label>
+                                <label for="taskInput">
+                                    <textarea class="rounded" name="task" id="taskInput" rows="3" cols="45" placeholder="..." required><%= task.task %></textarea>
+                                </label>
+                                <p class="text-secondary">Notes:</p>
+                                <label for="taskNotes">
+                                    <textarea class="rounded" name="taskNotes" id="taskNotes" rows="3" cols="45" placeholder="..." style="white-space: pre-wrap;"><%= task.notes %></textarea>
+                                </label>
+                                <hr>
+                                <div class="d-flex flex-row justify-content-between">
+                                    <p><%= task.username %></p>
+                                    <% if ( task.edited === true) { %>
+                                        <p class="text-secondary" style="font-size: xx-small;">Last updated: <%= task.timeofedit %></p>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-secondary" >Update task.</button>
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close.</button>
+                            </div>
+                        </form>
+                        <div class="d-flex justify-content-center m-2">
+                            <form action="/deleteTask" method="post">
+                                <label for="deletingTaskId">
+                                    <input type="number" class="d-none" name="deletingTaskId" id="deletingTaskId" value="<%= task.taskid %>">
+                                </label>
+                                <button class="btn btn-outline-danger px-2 py-0" type="submit">Delete task.</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <% } %>
+    
+        </div>
+        <hr > 
+        <div class="d-flex flex-row w-100 justify-content-end">
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#taskModal">Create new task.</button>
+        </div>
+
+        <% } %>
+
+    <!-- Creating a new task modal. -->
+    <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/createTask" id="createForm" method="post">
+                    <div class="modal-header d-flex justify-content-center">
+                        <h1 class="modal-title text-dark" id="taskModal">New task</h1>
+                    </div>
+                    <div class="modal-body w-100">
+                        <p class="text-secondary">Task:</p>
+                        <label for="taskInput">
+                            <textarea class="rounded" name="task" id="taskInput" rows="3" cols="45" placeholder="..." required></textarea>
+                        </label>
+
+
+                        <p class="text-secondary">Notes:</p>
+                        <label for="taskNotes">
+                            <textarea class="rounded" name="taskNotes" id="taskNotes" rows="3" cols="45" placeholder="..." style="white-space: pre-wrap;"></textarea>
+                        </label>
+
+                        <hr>
+                        <div class="d-flex flex-row">
+                            <label for="user">
+                                <input class="rounded" name="taskUser" type="text" placeholder="Your name.." maxlength="15" required>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" form="createForm" class="btn btn-secondary" >Create a task.</button>
+                        <button type="button" form="createForm" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close.</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
