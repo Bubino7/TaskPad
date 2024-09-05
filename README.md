@@ -1,2 +1,2 @@
 # TaskPad
-A little app, that allows you to track some tasks.
+A little app, that allows you to track your tasks.
