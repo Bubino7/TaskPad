@@ -4,7 +4,7 @@ import pg from "pg";
 
 const app = express();
 // const port = 3000;
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 
 const db = new pg.Client({
     user: "postgres",
@@ -117,5 +117,5 @@ app.post("/deleteTask", async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log("The server is running on http://localhost:" + (port) + ".");
+    console.log("The server is running on " + (port) + ".");
 });
