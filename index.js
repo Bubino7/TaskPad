@@ -5,14 +5,20 @@ import pg from "pg";
 const app = express();
 // const port = 3000;
 const port = process.env.PORT || 3000;
-
-const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "TaskPad",
-    password: 'éžé+íí',
-    port: 5432,
+const { Pool } = require('pg');
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL
 });
+
+
+
+// const db = new pg.Client({
+//     user: "postgres",
+//     host: "localhost",
+//     database: "TaskPad",
+//     password: 'éžé+íí',
+//     port: 5432,
+// });
 
 db.connect();
 
