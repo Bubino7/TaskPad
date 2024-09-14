@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 
 const db = new pg.Client({
-  connectionStrin: process.env.DATABASE_URL,
+  connectionStrin: process.env.DB_URL,
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_DB,
